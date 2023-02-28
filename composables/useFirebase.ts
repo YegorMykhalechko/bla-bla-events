@@ -43,3 +43,9 @@ export const initUser = async () => {
     }
   });
 };
+
+export const signOutUser = async () => {
+  const auth = getAuth();
+  const result = await auth.signOut();
+  return result;
+};
