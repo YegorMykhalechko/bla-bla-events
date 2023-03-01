@@ -1,10 +1,14 @@
 <template>
-    <div>
-        Secret
-    </div>
+  <div>
+    <div>Secret</div>
+  </div>
 </template>
+
 <script setup>
 definePageMeta({
-    middleware: ["auth"]
-})
+  middleware: ["auth"],
+});
+const firebaseUser = useFirebaseUser();
 </script>
+
+<style></style>

@@ -1,49 +1,26 @@
 <template>
-    <div>
-        <button v-if="!firebaseUser" @click="signIn" class="button">Sign In</button>
-        <button v-if="firebaseUser" @click="signOut" class="button">Sign Out</button>
-        <div v-if="firebaseUser">
-            <ClientOnly>
-                <pre>
-                    {{ firebaseUser }}
-                </pre>
-            </ClientOnly>
-        </div>
-        <div v-else>
-            User signed out
-        </div>
+  <div>
+    <p><NuxtLink to="/secret">Go to Secret Page</NuxtLink></p>
+    <button class="button" @click="signOut" v-if="firebaseUser">
+      Sign out
+    </button>
+    <div v-if="firebaseUser">
+      <client-only>
+        <pre
+          >{{ firebaseUser }}
+    </pre
+        >
+      </client-only>
     </div>
+    <div v-else>User is signed out</div>
+  </div>
 </template>
+
 <script setup>
-// definePageMeta({
-//     middleware: ["auth"]
-// })
-
 const firebaseUser = useFirebaseUser();
-const credentials = ref();
-const { $auth } = useNuxtApp();
-
-console.log($auth?.currentUser)
-
-const signIn = async () => {
-    const email = "test@test.com";
-    const password = "123456";
-    credentials.value = await signInUser(email, password);
-};
-
 const signOut = async () => {
-    credentials.value = await signOutUser();
+  await signOutUser();
 };
-onMounted(async () => {
-    // const email = "test@test.com";
-    // const password = "123456";
-    // const credentials = await createUser(email, password);
-    // console.log(credentials);
-    // const email = "test@test.com";
-    // const password = "123456";
-    // const credentials = await signInUser(email, password);
-    // console.log(credentials)
-    // const result = await signOutUser()
-    // console.log(result)
-});
 </script>
+
+<style></style>

@@ -1,54 +1,58 @@
 //https://firebase.google.com/docs/auth/web/start
 
 import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
+import { useFirebaseUser } from "./useStates";
 
 export const createUser = async (email: any, password: any) => {
-    const auth = getAuth();
-    const credentials = createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-    ).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    });
-    return credentials;
+  const auth = getAuth();
+  const credentials = createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  ).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+  return credentials;
 };
 
 export const signInUser = async (email: any, password: any) => {
-    const auth = getAuth();
-    const credentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-    ).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    });
-    return credentials;
+  const auth = getAuth();
+  const credentials = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
+  ).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+  return credentials;
 };
 
 export const initUser = async () => {
-    const auth = getAuth();
-    const firebaseUser = useFirebaseUser();
-    firebaseUser.value = <any>auth.currentUser;
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // console.log("Auth changed:", user)
-        } else {
-            // console.log("Auth changed:", user)
-        }
-        firebaseUser.value = <any>user;
-    });
+  const auth = getAuth();
+  const firebaseUser = useFirebaseUser();
+  firebaseUser.value = <any>auth.currentUser;
+  // const userCookie = useCookie("userCookie");
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // console.log("Auth changed:", user)
+    } else {
+      // console.log("Auth changed:", user)
+    }
+    firebaseUser.value = <any>user;
+
+    // userCookie.value = <any>user;
+  });
 };
 
 export const signOutUser = async () => {
-    const auth = getAuth();
-    const result = await auth.signOut();
-    return result;
+  const auth = getAuth();
+  const result = await auth.signOut();
+  return result;
 };
