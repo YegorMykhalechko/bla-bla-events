@@ -1,13 +1,21 @@
 <template>
     <div>
-        <button @click="signIn" class="button">Sign In</button>
-        <button @click="signOut" class="button">Sign Out</button>
-        <pre>
-            {{credentials}}
-        </pre>
+        <button v-if="!firebaseUser" @click="signIn" class="button">Sign In</button>
+        <button v-if="firebaseUser" @click="signOut" class="button">Sign Out</button>
+        <div v-if="firebaseUser">
+            <ClientOnly>
+                <pre>
+                    {{ firebaseUser }}
+                </pre>
+            </ClientOnly>
+        </div>
+        <div v-else>
+            User signed out
+        </div>
     </div>
 </template>
 <script setup>
+const firebaseUser = useFirebaseUser();
 const credentials = ref();
 
 const signIn = async () => {
